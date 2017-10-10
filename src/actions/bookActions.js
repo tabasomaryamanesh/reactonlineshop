@@ -21,3 +21,10 @@ export function updateBook(book) {
     payload: book
   };
 }
+
+// get all books (get all does not need any payload)
+export function getBooks() {
+  return {
+    type: "BOOK_GET"
+  };
+}
