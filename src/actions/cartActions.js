@@ -7,3 +7,9 @@ export function addToCart(book) {
 }
 
 // second export for the second action
+export function deleteCartItem(cart) {
+  return {
+    type: "DELETE_CART_ITEM",
+    payload: cart
+  };
+}

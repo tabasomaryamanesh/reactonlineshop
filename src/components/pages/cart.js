@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { deleteCartItem } from "../../actions/cartActions";
 
 class Cart extends Component {
+  onDelete() {
+    //todo: start from here
+  }
+
   render() {
     if (this.props.cart.length === 0) {
       return this.renderEmpty();
@@ -12,7 +18,30 @@ class Cart extends Component {
 
   renderCart() {
     const cartItemsList = this.props.cart.map(function(cartArray) {
-      return <div key={cartArray.id}>{cartArray.title}</div>;
+      return (
+        <div key={cartArray.id}>
+          <span>
+            <h5>
+              <b>Item:</b> {cartArray.title}
+            </h5>
+          </span>
+          <span>usd.{cartArray.price}</span>
+          <span>
+            qty.<label>0</label>
+          </span>
+          <button className="btn btn-xs" ref="btn-inc">
+            +
+          </button>
+          <span> </span>
+          <button className="btn btn-xs" ref="btn-dec">
+            -
+          </button>
+          <span> </span>
+          <button className="btn btn-xs btn-danger" ref="btn-remove">
+            DELETE
+          </button>
+        </div>
+      );
     });
     return (
       <div>
@@ -27,10 +56,21 @@ class Cart extends Component {
     return <div />;
   }
 }
+
 function mapStateToProps(state) {
   console.log(state);
   return {
     cart: state.carts.cart
   };
 }
-export default connect(mapStateToProps)(Cart);
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      deleteCartItem: deleteCartItem
+    },
+    dispatch
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
