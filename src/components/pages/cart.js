@@ -6,7 +6,7 @@ class Cart extends Component {
     if (this.props.cart.length === 0) {
       return this.renderEmpty();
     } else {
-      return this.renderEmpty();
+      return this.renderCart();
     }
   }
 
@@ -14,17 +14,17 @@ class Cart extends Component {
     const cartItemsList = this.props.cart.map(function(cartArray) {
       return <div key={cartArray.id}>{cartArray.title}</div>;
     });
-
-    const title = <badge> Items: {this.cartItemsList.length} </badge>;
     return (
       <div>
-        <panel header={title}>{this.cartItemsList}</panel>
+        <h4>Items added to the cart:</h4>
+        {cartItemsList}
+        <br />
       </div>
     );
   }
 
   renderEmpty() {
-    return <div>Cart is empty.</div>;
+    return <div />;
   }
 }
 function mapStateToProps(state) {
