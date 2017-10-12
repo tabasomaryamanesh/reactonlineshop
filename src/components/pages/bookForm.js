@@ -1,6 +1,21 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {postBooks} from '../../actions/bookActions';
+import {findDOMNode} from 'react-dom';
 
 class BookForm extends Component {
+
+  handleSubmit(){
+    const newBook = [{
+      id: 125,
+      title : findDOMNode(this.refs.title).value,
+      price : findDOMNode(this.refs.price).value,
+      description : findDOMNode(this.refs.description).value
+    }]
+    this.props.postBooks(newBook)
+  }
+
   render() {
     return (
       <form className="form-horizontal">
@@ -10,7 +25,7 @@ class BookForm extends Component {
           </label>
           <div className="col-sm-10">
             <input
-              name="title"
+              ref="title"
               type="text"
               className="form-control"
               id="inputBookTitle"
@@ -24,7 +39,7 @@ class BookForm extends Component {
           </label>
           <div className="col-sm-10">
             <input
-              name="Price"
+              ref="price"
               type="text"
               className="form-control"
               id="inputBookPrice"
@@ -38,7 +53,7 @@ class BookForm extends Component {
           </label>
           <div className="col-sm-10">
             <textarea
-              name="bookDescription"
+              ref="description"
               type="text"
               className="form-control"
               rows="3"
@@ -49,8 +64,8 @@ class BookForm extends Component {
         </div>
         <div className="form-group">
           <div className="col-sm-offset-2 col-sm-10">
-            <button type="submit" className="btn btn-success">
-              New book
+            <button type="submit" onClick={this.handleSubmit.bind(this)} className="btn btn-success">
+              Save
             </button>
           </div>
         </div>
@@ -59,4 +74,8 @@ class BookForm extends Component {
   }
 }
 
-export default BookForm;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({postBooks},dispatch)
+}
+
+export default connect(null, mapDispatchToProps) (BookForm);
