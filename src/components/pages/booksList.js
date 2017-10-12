@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import { getBooks } from "../../actions/bookActions";
 import BookItem from "./bookItem";
 import BookForm from "./bookForm";
+import Cart from "./cart";
 
 class BooksList extends Component {
   // Dispatch an action
@@ -39,6 +40,9 @@ class BooksList extends Component {
     });
     return (
       <div className="container">
+        <div>
+          <Cart />
+        </div>
         <div>{booksList}</div>
         <div className="well">
           <BookForm />
@@ -49,6 +53,7 @@ class BooksList extends Component {
 }
 
 // having access to the state
+// this method returns the book array from the state
 function mapStateToProps(state) {
   return {
     books: state.books.books
