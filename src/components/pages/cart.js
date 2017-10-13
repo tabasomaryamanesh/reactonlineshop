@@ -4,8 +4,18 @@ import { bindActionCreators } from "redux";
 import { deleteCartItem } from "../../actions/cartActions";
 
 class Cart extends Component {
-  onDelete() {
-    //todo: start from here
+  onDelete(id) {
+    const currentBookToDelete = this.props.cart;
+    const indexToDelete = currentBookToDelete.findIndex(function(cart) {
+      return cart.id === id;
+    });
+
+    let cartAfterDelete = [
+      ...currentBookToDelete.slice(0, indexToDelete),
+      ...currentBookToDelete.slice(indexToDelete + 1)
+    ];
+
+    this.props.deleteCartItem(cartAfterDelete);
   }
 
   render() {
@@ -37,12 +47,16 @@ class Cart extends Component {
             -
           </button>
           <span> </span>
-          <button className="btn btn-xs btn-danger" ref="btn-remove">
+          <button
+            onClick={this.onDelete.bind(this, cartArray.id)}
+            className="btn btn-xs btn-danger"
+            ref="btn-remove"
+          >
             DELETE
           </button>
         </div>
       );
-    });
+    }, this);
     return (
       <div>
         <h4>Items added to the cart:</h4>
@@ -58,7 +72,6 @@ class Cart extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     cart: state.carts.cart
   };

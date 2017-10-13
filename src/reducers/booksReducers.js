@@ -34,10 +34,10 @@ export function booksReducers(
       };
 
     case "BOOK_UPDATE":
-      // const currentBookArray = [...state.books]
-      // const indexToDelete = currentBookArray.findIndex(function(book){
-      //     return book.id === action.payload.id;
-      // })
+      const currentBookToUpdate = [...state.books];
+      const indexToUpdate = currentBookToUpdate.findIndex(function(book) {
+        return book.id === action.payload.id;
+      });
       // return { books: [...currentBookArray.slice(0,indexToDelete),...currentBookArray.slice(indexToDelete + 1)]}
       break;
 
