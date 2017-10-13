@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addToCart } from "../../actions/cartActions";
+import { addToCart, updateCart } from "../../actions/cartActions";
 
 class BookItem extends Component {
   // function that dispatches the addToCart action
@@ -13,10 +13,29 @@ class BookItem extends Component {
         id: this.props.id,
         title: this.props.title,
         price: this.props.price,
-        description: this.props.description
+        description: this.props.description,
+        quantity: 1
       }
     ];
-    this.props.addToCart(book);
+
+    // to check if the cart array is empty
+    if (this.props.cart.length > 0) {
+      let _id = this.props.id;
+
+      let cartIndex = this.props.cart.findIndex(function(cart) {
+        return cart.id === _id;
+      });
+
+      if (cartIndex === -1) {
+        this.props.addToCart(book);
+      } else {
+        // We need to only update the quantity
+        this.props.updateCart(_id, 1);
+      }
+    } else {
+      // Cart is empty
+      this.props.addToCart(book);
+    }
   }
 
   render() {
@@ -48,7 +67,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      addToCart: addToCart
+      addToCart: addToCart,
+      updateCart: updateCart
     },
     dispatch
   );

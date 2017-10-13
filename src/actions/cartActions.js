@@ -13,3 +13,12 @@ export function deleteCartItem(cart) {
     payload: cart
   };
 }
+
+// update cart quantity
+export function updateCart(id, unit) {
+  return {
+    type: "UPDATE_CART_QUANTITY",
+    _id: id,
+    unit: unit
+  };
+}

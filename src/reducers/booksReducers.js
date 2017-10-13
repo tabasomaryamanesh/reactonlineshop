@@ -38,9 +38,22 @@ export function booksReducers(
       const indexToUpdate = currentBookToUpdate.findIndex(function(book) {
         return book.id === action.payload.id;
       });
-      // return { books: [...currentBookArray.slice(0,indexToDelete),...currentBookArray.slice(indexToDelete + 1)]}
-      break;
 
+      const newBookToUpdate = {
+        ...currentBookToUpdate[indexToUpdate],
+        title: action.payload.title
+      };
+
+      // return {
+      //   books: [
+      //     ...newBookToUpdate.slice(0, indexToUpdate),
+      //     newBookToUpdate,
+      //     ...currentBookArray.slice(indexToUpdate + 1)
+      //   ]
+      // };
+
+      // return { ...state, cart: action.payload };
+      break;
     case "BOOK_GET":
       return { ...state, books: [...state.books] };
     default:

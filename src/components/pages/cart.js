@@ -1,9 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { deleteCartItem } from "../../actions/cartActions";
+import { deleteCartItem, updateCart } from "../../actions/cartActions";
+import { Modal, Button } from "react-bootstrap";
 
 class Cart extends Component {
+  // Setting the initial state
+  constructor() {
+    super();
+    this.state = {
+      showModal: false
+    };
+  }
+
+  open() {
+    this.setState({ showModal: true });
+  }
+
+  close() {
+    this.setState({ showModal: false });
+  }
+
   onDelete(id) {
     const currentBookToDelete = this.props.cart;
     const indexToDelete = currentBookToDelete.findIndex(function(cart) {
@@ -26,6 +43,16 @@ class Cart extends Component {
     }
   }
 
+  OnIncrement(_id) {
+    this.props.updateCart(_id, 1);
+  }
+
+  OnDecrement(_id, qty) {
+    if (qty > 1) {
+      this.props.updateCart(_id, -1);
+    }
+  }
+
   renderCart() {
     const cartItemsList = this.props.cart.map(function(cartArray) {
       return (
@@ -37,13 +64,27 @@ class Cart extends Component {
           </span>
           <span>usd.{cartArray.price}</span>
           <span>
-            qty.<label>0</label>
+            qty.<span className="label label-success">
+              {cartArray.quantity}
+            </span>
           </span>
-          <button className="btn btn-xs" ref="btn-inc">
+          <button
+            onClick={this.OnIncrement.bind(this, cartArray.id)}
+            className="btn btn-xs"
+            ref="btn-inc"
+          >
             +
           </button>
           <span> </span>
-          <button className="btn btn-xs" ref="btn-dec">
+          <button
+            onClick={this.OnDecrement.bind(
+              this,
+              cartArray.id,
+              cartArray.quantity
+            )}
+            className="btn btn-xs"
+            ref="btn-dec"
+          >
             -
           </button>
           <span> </span>
@@ -57,11 +98,27 @@ class Cart extends Component {
         </div>
       );
     }, this);
+
     return (
       <div>
-        <h4>Items added to the cart:</h4>
+        <h4>Total amount:</h4>
         {cartItemsList}
+        <button
+          className="btn btn-success btn-small"
+          onClick={this.open.bind(this)}
+        >
+          PROCEED TO CHECKOUT
+        </button>
         <br />
+        <Modal show={this.state.showModal} onHide={this.close.bind(this)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>body</Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.close.bind(this)}>Close</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
@@ -80,7 +137,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      deleteCartItem: deleteCartItem
+      deleteCartItem: deleteCartItem,
+      updateCart: updateCart
     },
     dispatch
   );
