@@ -22,14 +22,14 @@ export function booksReducers(
       return { books: [...state.books, ...action.payload] };
 
     case "BOOK_DELETE":
-      const currentBookArray = [...state.books];
-      const indexToDelete = currentBookArray.findIndex(function(book) {
-        return book.id === action.payload.id;
+      const currentBookToDelete = [...state.books];
+      const indexToDelete = currentBookToDelete.findIndex(function(book) {
+        return book.id == action.payload;
       });
       return {
         books: [
-          ...currentBookArray.slice(0, indexToDelete),
-          ...currentBookArray.slice(indexToDelete + 1)
+          ...currentBookToDelete.slice(0, indexToDelete),
+          ...currentBookToDelete.slice(indexToDelete + 1)
         ]
       };
 

@@ -2,25 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { deleteCartItem, updateCart } from "../../actions/cartActions";
-import { Modal, Button } from "react-bootstrap";
+import { Well, Collapse } from "react-bootstrap";
 
 class Cart extends Component {
-  // Setting the initial state
-  constructor() {
-    super();
-    this.state = {
-      showModal: false
-    };
-  }
+  constructor(...args) {
+    super(...args);
 
-  open() {
-    this.setState({ showModal: true });
+    this.state = {};
   }
-
-  close() {
-    this.setState({ showModal: false });
-  }
-
   onDelete(id) {
     const currentBookToDelete = this.props.cart;
     const indexToDelete = currentBookToDelete.findIndex(function(cart) {
@@ -31,7 +20,6 @@ class Cart extends Component {
       ...currentBookToDelete.slice(0, indexToDelete),
       ...currentBookToDelete.slice(indexToDelete + 1)
     ];
-
     this.props.deleteCartItem(cartAfterDelete);
   }
 
@@ -100,26 +88,27 @@ class Cart extends Component {
     }, this);
 
     return (
-      <div>
+      <Well>
         <h4>Total amount:</h4>
         {cartItemsList}
+        <br />
         <button
           className="btn btn-success btn-small"
-          onClick={this.open.bind(this)}
+          onClick={() => this.setState({ open: !this.state.open })}
         >
           PROCEED TO CHECKOUT
         </button>
+        <Collapse in={this.state.open}>
+          <div>
+            <Well>
+              <h6>Your order has been saved</h6>
+              <p>You will recieve an email confirmation</p>
+              <p>total: £{this.props.totalAmount}</p>
+            </Well>
+          </div>
+        </Collapse>
         <br />
-        <Modal show={this.state.showModal} onHide={this.close.bind(this)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>body</Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.close.bind(this)}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+      </Well>
     );
   }
 
@@ -130,7 +119,8 @@ class Cart extends Component {
 
 function mapStateToProps(state) {
   return {
-    cart: state.carts.cart
+    cart: state.carts.cart,
+    totalAmount: state.carts.totalAmount
   };
 }
 
