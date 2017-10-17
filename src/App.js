@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { applyMiddleware, createStore } from "redux";
 import logger from "redux-logger";
