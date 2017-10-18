@@ -1,5 +1,6 @@
 // Add a new book
 export function postBooks(book) {
+  console.log(book);
   return {
     type: "POST_BOOK",
     payload: book

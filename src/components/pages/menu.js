@@ -20,10 +20,10 @@ class Menu extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1} href="/about">
+            <NavItem eventKey={1} href="./about">
               about
             </NavItem>
-            <NavItem eventKey={2} href="/contact">
+            <NavItem eventKey={2} href="./contact">
               contact
             </NavItem>
             {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
@@ -38,7 +38,7 @@ class Menu extends Component {
             <NavItem eventKey={1} href="/admin">
               Admin
             </NavItem>
-            <NavItem eventKey={2} href="/cart">
+            <NavItem eventKey={2} href="./cart">
               Your Cart:&nbsp;&nbsp;
               {this.props.cartItemsNumber > 0 ? (
                 <Badge className="badge"> {this.props.cartItemsNumber} </Badge>

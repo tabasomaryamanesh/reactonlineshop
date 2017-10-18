@@ -5,7 +5,9 @@ import { postBooks, deleteBook } from "../../actions/bookActions";
 import { findDOMNode } from "react-dom";
 
 class BookForm extends Component {
-  handleSubmit() {
+  handleSubmit = e => {
+    e.preventDefault();
+
     const newBook = [
       {
         id: 125,
@@ -15,13 +17,14 @@ class BookForm extends Component {
       }
     ];
     this.props.postBooks(newBook);
-  }
+  };
 
-  onDeleteBook() {
+  onDeleteBook = e => {
+    e.preventDefault();
     console.log("delete function happened");
     let bookId = findDOMNode(this.refs.deleteBtn).value;
     this.props.deleteBook(bookId);
-  }
+  };
 
   render() {
     const bookList = this.props.books.map(function(bookArr) {
@@ -77,24 +80,26 @@ class BookForm extends Component {
           <div className="col-sm-offset-2 col-sm-10">
             <button
               type="submit"
-              onClick={this.handleSubmit.bind(this)}
+              onClick={e => this.handleSubmit(e)}
               className="btn btn-success"
             >
               Save
             </button>
           </div>
         </div>
+        <hr />
         <div className="form-group">
-          <label>Select a book from the list below to delete</label>
-          <select ref="deleteBtn">
+          <label className="col-sm-5 control-label">
+            Select a book from the list below to delete
+          </label>
+          <select ref="deleteBtn" className="select">
             <option value="select">select</option>
             {bookList}
-          </select>
-        </div>
-        <div className="form-group">
+          </select>{" "}
+          &nbsp; &nbsp; &nbsp;
           <button
-            onClick={this.onDeleteBook.bind(this)}
-            className="btn btn-danger"
+            onClick={e => this.onDeleteBook(e)}
+            className="btn btn-sm btn-danger"
           >
             Delete Book
           </button>
