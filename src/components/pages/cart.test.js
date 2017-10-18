@@ -1,13 +1,26 @@
 import React from "react";
-import { shallow } from "enzyme";
 import Cart from "./cart";
-import { configure } from "enzyme";
+import { connect } from "react-redux";
+import { shallowWithStore } from "enzyme-redux";
+import { createMockStore } from "redux-test-utils";
 import Adapter from "enzyme-adapter-react-16";
+import { configure } from "enzyme";
 configure({ adapter: new Adapter() });
 
-describe("Welcome", () => {
-  it("Welcome renders hello world", () => {
-    const welcome = shallow(<Cart />);
-    expect(welcome.find("h4").text()).toEqual("Total amount:");
+describe("cart shallow with store", () => {
+  const ReactComponent = () => <Cart />;
+  describe("state", () => {
+    it("works", () => {
+      const expectedState = "expectedState";
+      const mapStateToProps = state => ({
+        state
+      });
+      const ConnectedComponent = connect(mapStateToProps)(ReactComponent);
+      const component = shallowWithStore(
+        <ConnectedComponent />,
+        createMockStore(expectedState)
+      );
+      expect(component.props().state).toBe(expectedState);
+    });
   });
 });
